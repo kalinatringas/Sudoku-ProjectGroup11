@@ -22,10 +22,13 @@ class SudokuGenerator:
 	Return:
 	None
     '''
+	
     def __init__(self, row_length, removed_cells):
-        row_length = 9 #always gonna be nine lol    
+        row_length = 9 #always gonna be nine lol  
+	removed_cells = 0
         self.row_length = row_length #or i could just always pass in nine as hard code... but i don't wanna hard code it 
         self.removed_cells = removed_cells #changes based on user difficulty, (30, 40, 50)
+	self.board = [[0]] * row_length for _ in range(row_length)]
         pass
 
     '''
@@ -35,10 +38,8 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        
 
-
-        return #list[list]
+        return self.board #list[list]
 
     '''
 	Displays the board to the console
@@ -67,8 +68,9 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_row(self, row, num):
+	    return num not in self.board[row]
+	    
         pass
-
     '''
 	Determines if num is contained in the specified column (vertical) of the board
     If num is already in the specified col, return False. Otherwise, return True
@@ -80,9 +82,12 @@ class SudokuGenerator:
 	Return: boolean
     '''
     def valid_in_col(self, col, num):
+	    for row in self.board:
+		    if row[col] == num:
+			    return False
+		return True
         pass
 
-    '''
 	Determines if num is contained in the 3x3 box specified on the board
     If num is in the specified box starting at (row_start, col_start), return False.
     Otherwise, return True
@@ -93,24 +98,30 @@ class SudokuGenerator:
 	num is the value we are looking for in the box
 
 	Return: boolean
-    '''
+
     def valid_in_box(self, row_start, col_start, num):
+	    for i in range(3):
+		    for j in range(3):
+			    if self.board[row_start + i][col_start + j] == num:
+				    return False
+		return True    
         pass
     
-    '''
-    Determines if it is valid to enter num at (row, col) in the board
+    """Determines if it is valid to enter num at (row, col) in the board
     This is done by checking that num is unused in the appropriate, row, column, and box
 
 	Parameters:
 	row and col are the row index and col index of the cell to check in the board
 	num is the value to test if it is safe to enter in this cell
 
-	Return: boolean
-    '''
-    def is_valid(self, row, col, num):
-        pass
+	Return: boolean"""
 
-    '''
+    def is_valid(self, row, col, num):
+	return self.valid_in_row(row, num) and \
+               self.valid_in_col(col, num) and \
+               self.valid_in_box(row - row % 3, col - col % 3, num)
+	pass
+
     Fills the specified 3x3 box with values
     For each position, generates a random digit which has not yet been used in the box
 
@@ -119,11 +130,14 @@ class SudokuGenerator:
 	i.e. the box is from (row_start, col_start) to (row_start+2, col_start+2)
 
 	Return: None
-    '''
+ 
     def fill_box(self, row_start, col_start):
+	nums = random.sample(range(1, 10), 9)
+	for i in range(3):
+		for j in range(3):
+			self.board[row_start + i][col_start + j] = nums.pop()
         pass
-    
-    '''
+
     Fills the three boxes along the main diagonal of the board
     These are the boxes which start at (0,0), (3,3), and (6,6)
 
