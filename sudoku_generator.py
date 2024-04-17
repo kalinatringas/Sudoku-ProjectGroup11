@@ -23,6 +23,9 @@ class SudokuGenerator:
 	None
     '''
     def __init__(self, row_length, removed_cells):
+        row_length = 9 #always gonna be nine lol    
+        self.row_length = row_length #or i could just always pass in nine as hard code... but i don't wanna hard code it 
+        self.removed_cells = removed_cells #changes based on user difficulty, (30, 40, 50)
         pass
 
     '''
@@ -32,7 +35,10 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        pass
+        
+
+
+        return #list[list]
 
     '''
 	Displays the board to the console
@@ -42,6 +48,12 @@ class SudokuGenerator:
 	Return: None
     '''
     def print_board(self):
+
+        for i in range(self.row_length):
+            for j in range(self.row_length):
+                pass
+
+
         pass
 
     '''
