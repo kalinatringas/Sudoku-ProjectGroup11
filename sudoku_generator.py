@@ -143,12 +143,12 @@ class SudokuGenerator:
 
 	Parameters: None
 	Return: None
-    '''
+
     def fill_diagonal(self):
         pass
 
-    '''
-    DO NOT CHANGE
+
+    """DO NOT CHANGE
     Provided for students
     Fills the remaining cells of the board
     Should be called after the diagonal boxes have been filled
@@ -157,8 +157,8 @@ class SudokuGenerator:
 	row, col specify the coordinates of the first empty (0) cell
 
 	Return:
-	boolean (whether or not we could solve the board)
-    '''
+	boolean (whether or not we could solve the board)"""
+
     def fill_remaining(self, row, col):
         if (col >= self.row_length and row < self.row_length - 1):
             row += 1
@@ -211,7 +211,13 @@ class SudokuGenerator:
 	Return: None
     '''
     def remove_cells(self):
+	for _ in range(self.removed_cells):
+		row = random.randint(0, self.row_length - 1)
+		col = random.randint(0, self.row_length - 1)
+		self.board[row][col] = 0
         pass
+
+
 
 '''
 DO NOT CHANGE
