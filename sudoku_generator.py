@@ -28,7 +28,7 @@ class SudokuGenerator:
 	removed_cells = 0
         self.row_length = row_length #or i could just always pass in nine as hard code... but i don't wanna hard code it 
         self.removed_cells = removed_cells #changes based on user difficulty, (30, 40, 50)
-	self.board = [[0]] * row_length for _ in range(row_length)]
+        self.board = [[0]] * row_length for _ in range(row_length)
         pass
 
     '''
@@ -70,7 +70,7 @@ class SudokuGenerator:
     def valid_in_row(self, row, num):
 	    return num not in self.board[row]
 	    
-        pass
+        
     '''
 	Determines if num is contained in the specified column (vertical) of the board
     If num is already in the specified col, return False. Otherwise, return True
@@ -81,7 +81,7 @@ class SudokuGenerator:
 	
 	Return: boolean
     '''
-    def valid_in_col(self, col, num):
+    '''def valid_in_col(self, col, num):
 	    for row in self.board:
 		    if row[col] == num:
 			    return False
@@ -187,6 +187,7 @@ class SudokuGenerator:
         return False
 
     '''
+    '''
     DO NOT CHANGE
     Provided for students
     Constructs a solution by calling fill_diagonal and fill_remaining
@@ -209,7 +210,8 @@ class SudokuGenerator:
 
 	Parameters: None
 	Return: None
-    '''
+
+
     def remove_cells(self):
 	for _ in range(self.removed_cells):
 		row = random.randint(0, self.row_length - 1)
@@ -219,7 +221,7 @@ class SudokuGenerator:
 
 
 
-'''
+
 DO NOT CHANGE
 Provided for students
 Given a number of rows and number of cells to remove, this function:
