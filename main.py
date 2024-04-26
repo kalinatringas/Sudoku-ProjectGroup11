@@ -29,7 +29,7 @@ def draw_game_start(screen):
     screen_width = size_x
     screen_height = size_y
     screen = pygame.display.set_mode((screen_width, screen_height))
-    screen.fill((255, 255, 255))
+    screen.fill((white_color))
 
     pygame.display.update()
     fps_clock.tick(30)
