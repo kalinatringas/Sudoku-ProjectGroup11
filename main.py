@@ -5,8 +5,8 @@ from board import Board
 pygame.init()
 
 # Set up the screen
-WIDTH = 600
-HEIGHT = 600
+WIDTH = 900
+HEIGHT = 900
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku Game")
 
@@ -21,21 +21,7 @@ GAME_SCREEN = 1
 game_state = START_SCREEN
 
 # Function to draw the start screen
-def draw_start_screen():
-    screen.fill((255, 255, 255))  # Fill the screen with white color
-    title_text = large_font.render("Sudoku Game :3", True, (0, 0, 0))
-    screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 4))
 
-    easy_text = font.render("Easy (Press 1)", True, (0, 0, 0))
-    screen.blit(easy_text, (WIDTH // 2 - easy_text.get_width() // 2, HEIGHT // 2))
-
-    medium_text = font.render("Medium (Press 2)", True, (0, 0, 0))
-    screen.blit(medium_text, (WIDTH // 2 - medium_text.get_width() // 2, HEIGHT // 2 + 40))
-
-    hard_text = font.render("Hard (Press 3)", True, (0, 0, 0))
-    screen.blit(hard_text, (WIDTH // 2 - hard_text.get_width() // 2, HEIGHT // 2 + 80))
-
-    pygame.display.update()
 
 # Set up the game board
 difficulty = 0  # Set the difficulty level (0: Easy, 1: Medium, 2: Hard)
@@ -75,6 +61,27 @@ def draw_buttons():
         text_rect = text_surface.get_rect(center=button_rect.center)
         screen.blit(text_surface, text_rect)
 
+def draw_start_screen(BOOL):
+    
+    if BOOL == True:
+        screen.fill((255, 255, 255))  # Fill the screen with white color
+        
+        title_text = large_font.render("Sudoku Game :3", True, (0, 0, 0))
+        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 4))
+
+        easy_text = font.render("Easy (Press 1)", True, (0, 0, 0))
+        screen.blit(easy_text, (WIDTH // 2 - easy_text.get_width() // 2, HEIGHT // 2))
+
+        medium_text = font.render("Medium (Press 2)", True, (0, 0, 0))
+        screen.blit(medium_text, (WIDTH // 2 - medium_text.get_width() // 2, HEIGHT // 2 + 40))
+
+        hard_text = font.render("Hard (Press 3)", True, (0, 0, 0))
+        screen.blit(hard_text, (WIDTH // 2 - hard_text.get_width() // 2, HEIGHT // 2 + 80))
+        draw_buttons()
+        pygame.display.update()
+    else:
+        pass
+
 # Main loop
 
 
@@ -87,7 +94,7 @@ while running:
             running = False
 
         if game_state == START_SCREEN:
-            draw_start_screen()
+            draw_start_screen(True)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
@@ -103,6 +110,8 @@ while running:
                     game_state = GAME_SCREEN
                     board = Board(WIDTH, HEIGHT - 100, screen, difficulty)  # Adjusted height to accommodate the board
         elif game_state == GAME_SCREEN:
+            screen.fill((255, 255, 255)) 
+            board.draw()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Handle mouse click events
                 if event.button == 1:  # Left mouse button
@@ -132,10 +141,10 @@ while running:
                     board.place_number(board.selected_cell.sketched_value)
          
 
-            board.draw()  # Redraw the board
+              # Redraw the board
 
             # Draw buttons
-            draw_buttons()
+            
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mousex, mousey = pygame.mouse.get_pos()

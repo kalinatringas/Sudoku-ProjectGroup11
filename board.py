@@ -41,17 +41,17 @@ class Board:
         for i in range(1, 9):
             pygame.draw.line(
                 self.screen,
-                (100, 100, 100),
-                (0, i * 100),
-                (600, i * 100),
-                3
+                (100, 100, 100), #color
+                (0, i * 100), #cordinates
+                (900, i * 100), 
+                3 #thickness
             )
         for i in range(1, 9):
             pygame.draw.line(
                 self.screen,
                 (100, 100, 100),
                 (i * 100, 0),
-                (i * 100, 600),
+                (i * 100, 900),
                 3
             )
         for i in range(1, 3):
@@ -59,7 +59,7 @@ class Board:
                 self.screen,
                 (0, 0, 0),
                 (0, i * 300),
-                (600, i * 300),
+                (900, i * 300),
                 6
             )
         for i in range(1, 4):

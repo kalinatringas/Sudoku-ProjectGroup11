@@ -28,6 +28,6 @@ class Cell:
         else:
             color = (125, 125, 125)
         num_font = pygame.font.Font(None, 100)
-        num_surf = num_font.render(self.value, 0, color)
+        num_surf = num_font.render(str(self.value), 0, color)
         num_rect = num_surf.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
         self.screen.blit(num_surf, num_rect)
