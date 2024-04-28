@@ -21,13 +21,23 @@ class Cell:
     def set_sketched_value(self, value):
         self.sketched_value = str(value) if value != 0 else ""
 
-    # draws a cell
+        # draws a cell
     def draw(self):
-        if self.is_preset:
-            color = (0, 0, 0)
-        else:
-            color = (125, 125, 125)
-        num_font = pygame.font.Font(None, 100)
-        num_surf = num_font.render(str(self.value), 0, color)
-        num_rect = num_surf.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
-        self.screen.blit(num_surf, num_rect)
+        if self.value:
+            if self.is_preset:
+                color = (0, 0, 0)
+            else:
+                color = (125, 125, 125)
+            num_font = pygame.font.Font(None, 100)
+            num_surf = num_font.render(str(self.value), 0, color)
+            num_rect = num_surf.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
+            self.screen.blit(num_surf, num_rect)
+"""         elif self.sketched_value:
+            if self.is_preset:
+                color = (0, 0, 0)
+            else:
+                color = (125, 125, 125)
+            num_font = pygame.font.Font(None, 30)
+            num_surf = num_font.render(str(self.sketched_value), 0, color)
+            num_rect = num_surf.get_rect(topleft=(self.col * 100 + 10, self.row * 100 + 10))
+            self.screen.blit(num_surf, num_rect) """

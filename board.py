@@ -83,6 +83,21 @@ class Board:
                     num_rect = num_surf.get_rect(center=(cell.col * 100 + 20, cell.row * 100 + 20))
                     self.screen.blit(num_surf, num_rect)
 
+    def move_selection(self, key):
+        if key == pygame.K_UP:
+            if self.selected_cell.row > 0:
+                self.selected_cell = self.cell_list[self.selected_cell.row - 1][self.selected_cell.col]
+        elif key == pygame.K_DOWN:
+            if self.selected_cell.row < 8:
+                self.selected_cell = self.cell_list[self.selected_cell.row + 1][self.selected_cell.col]
+        elif key == pygame.K_LEFT:
+            if self.selected_cell.col > 0:
+                self.selected_cell = self.cell_list[self.selected_cell.row][self.selected_cell.col - 1]
+        elif key == pygame.K_RIGHT:
+            if self.selected_cell.col < 8:
+                self.selected_cell = self.cell_list[self.selected_cell.row][self.selected_cell.col + 1]
+
+
     def print_board(self):
         for row in self.cell_list:
             for cell in row:
@@ -181,7 +196,7 @@ class Board:
     def is_full(self):
         for row in self.cell_list:
             for cell in row:
-                if cell.value == "":
+                if cell.value == 0 or cell.value == "":
                     return False  # Found an empty cell, board is not full
         return True  # No empty cells found, board is full
 

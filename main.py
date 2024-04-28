@@ -106,6 +106,7 @@ while running:
             running = False
 
         if game_state == START_SCREEN:
+            
             draw_start_screen(True)
 
             if event.type == pygame.KEYDOWN:
@@ -153,6 +154,14 @@ while running:
                     elif event.key == pygame.K_RETURN:
                         # Finalize the sketching
                         board.place_number(board.selected_cell.sketched_value)
+                    board.move_selection(event)
+                if board.selected_cell is not None and not board.selected_cell.is_preset:
+                    # Check if the board is full after each key press
+                    if board.is_full():
+                        if board.check_board():
+                            game_state = WIN_SCREEN
+                        else:
+                            game_state = GAME_OVER
 
             # Handle button clicks
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -170,18 +179,11 @@ while running:
                             # End the program
                             pygame.quit()
                             sys.exit()
-            if board.is_full == True:
-                print("yug")
-                if board.check_board == True:
-                    print("meow")
-                    game_state = WIN_SCREEN
-                else: 
-                    game_state = GAME_OVER
-
+             
         elif game_state == WIN_SCREEN:
-            draw_win_screen()
+            draw_win_screen(screen)
         elif game_state == GAME_OVER:
-            draw_game_over_screen()
+            draw_game_over_screen(screen)
    
           
         
