@@ -126,7 +126,7 @@ while running:
                             print("Board is solved!")
                         else:
                             print("Board is not solved yet.")
-
+            
                   # Handle key press events
                 # Inside your event loop
             if event.type == pygame.KEYDOWN and board.selected_cell is not None and not board.selected_cell.is_preset:
