@@ -67,7 +67,7 @@ class Board:
                 self.screen,
                 (0, 0, 0),
                 (i * 300, 0),
-                (i * 300, 600),
+                (i * 300, 900),
                 6
             )
 
@@ -77,7 +77,7 @@ class Board:
                 cell.draw()
 
                 # Redraw sketched number only for empty cells
-                if cell.sketched_value and cell.value == "":
+                if not cell.value and not cell.is_preset:
                     num_font = pygame.font.Font(None, 30)
                     num_surf = num_font.render(cell.sketched_value, 0, (125, 125, 125))
                     num_rect = num_surf.get_rect(center=(cell.col * 100 + 20, cell.row * 100 + 20))
@@ -129,6 +129,15 @@ class Board:
             self.selected_cell.set_cell_value(0)
             self.selected_cell.set_sketched_value(0)
             pygame.draw.rect(self.screen, (225, 225, 225),(self.selected_cell.col * 100, self.selected_cell.row * 100, 100, 100))
+    
+    def reset_board(self):
+        for row in self.cell_list:
+            for cell in row:
+                if not cell.is_preset:
+                    cell.set_cell_value(0)
+                    cell.set_sketched_value(0)
+                    pygame.draw.rect(self.screen, (255, 255, 255), (cell.col * 100, cell.row * 100, 100, 100))
+
 
     # function that adds a smaller number to the top left of a cell equal to user-entered value
     def sketch(self, value):
