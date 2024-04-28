@@ -118,15 +118,19 @@ while running:
                         else:
                             print("Board is not solved yet.")
 
-            elif event.type == pygame.KEYDOWN:
-                # Handle key press events
-                if board.selected_cell is not None and not board.selected_cell.is_preset:
-                    if pygame.K_KP1 <= event.key <= pygame.K_KP9:
-                        board.place_number(event.key - pygame.K_KP0)  # Input number from number pad
-                    elif pygame.K_1 <= event.key <= pygame.K_9:
-                        board.place_number(event.key - pygame.K_0)  # Input number from top row of keyboard
-                    elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
-                        board.clear()  # Clear cell if backspace or delete is pressed
+                  # Handle key press events
+                # Inside your event loop
+            if event.type == pygame.KEYDOWN and board.selected_cell is not None and not board.selected_cell.is_preset:
+                if pygame.K_KP1 <= event.key <= pygame.K_KP9:
+                    board.sketch(event.key - pygame.K_KP0)  # Input number from number pad
+                elif pygame.K_1 <= event.key <= pygame.K_9:
+                    board.sketch(event.key - pygame.K_0)  # Input number from top row of keyboard
+                elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                    board.clear()  # Clear cell if backspace or delete is pressed
+                elif event.key == pygame.K_RETURN:
+                    # Finalize the sketching
+                    board.place_number(board.selected_cell.sketched_value)
+         
 
             board.draw()  # Redraw the board
 

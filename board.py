@@ -8,7 +8,7 @@ class Board:
         self.screen_width = screen_width 
         self.screen_height = screen_height 
         self.cell_size = min(self.screen_width, self.screen_height) * 0.7 // 9  # Calculate cell size dynamically
-        self.width = self.cell_size
+        self.width = self.cell_size * 9
         self.height = self.cell_size * 9
         self.screen = screen
         self.difficulty = difficulty
@@ -43,7 +43,7 @@ class Board:
                 self.screen,
                 (100, 100, 100),
                 (0, i * 100),
-                (900, i * 100),
+                (600, i * 100),
                 3
             )
         for i in range(1, 9):
@@ -51,7 +51,7 @@ class Board:
                 self.screen,
                 (100, 100, 100),
                 (i * 100, 0),
-                (i * 100, 900),
+                (i * 100, 600),
                 3
             )
         for i in range(1, 3):
@@ -59,7 +59,7 @@ class Board:
                 self.screen,
                 (0, 0, 0),
                 (0, i * 300),
-                (900, i * 300),
+                (600, i * 300),
                 6
             )
         for i in range(1, 4):
@@ -67,7 +67,7 @@ class Board:
                 self.screen,
                 (0, 0, 0),
                 (i * 300, 0),
-                (i * 300, 900),
+                (i * 300, 600),
                 6
             )
 

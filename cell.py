@@ -3,14 +3,15 @@ import pygame
 
 class Cell:
     # init function
-    def __init__(self, value, row, col, screen):
-        self.value = str(value) if value != 0 else ""
+    def __init__(self, value, row, col, screen, cell_size=100):
+        self.value = value
         self.row = row
         self.col = col
         self.screen = screen
-        self.sketched_value = str(value) if value != 0 else ""
-        self.original_value = str(value) if value != 0 else ""
-        self.is_preset = value != 0
+        self.cell_size = cell_size
+        self.sketched_value = None
+        self.is_preset = True if value != 0 else False
+
 
     # setter for the cell's value
     def set_cell_value(self, value):
