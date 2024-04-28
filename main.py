@@ -1,122 +1,155 @@
-##python3 sudoku.py
 import pygame, sys
-from pygame.locals import *
-import cell, board 
-'''
-Main (Required)
-In addition to the above classes, students will have a sudoku.py file, where the main function will be run. This
-file will contain code to create the different screens of the project (game start, game over, and game in
-progress), and will form a cohesive project together with the rest of the code.
-'''
+from board import Board
 
-import sudoku_generator as SG
-
-
+# Initialize pygame
 pygame.init()
-pygame.display.set_caption("Sudoku!")
-fps_clock = pygame.time.Clock()
-red_color = pygame.Color(255, 0, 0)
-green_color = pygame.Color(0, 255, 0)
-size_x = 800
-size_y = 800
+
+# Set up the screen
+WIDTH = 900
+HEIGHT = 900
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Sudoku Game")
+
 font = pygame.font.Font(None, 36)
-screen_width = size_x
-screen_height = size_y
-blue_color = pygame.Color(0, 0, 255)
-black_color = pygame.Color(0,0,0)
-white_color = pygame.Color(255, 255, 255)
-screen = pygame.display.set_mode((screen_width, screen_height))
-screen.fill((white_color))
+large_font = pygame.font.Font(None, 48)
 
+# Game states
+START_SCREEN = 0
+GAME_SCREEN = 1
 
-sudoku_board = pygame.image.load("assets/Sudoku.png")
-sudoku_board = pygame.transform.scale(sudoku_board, (screen_width-50, screen_height-50))
-image_rect = sudoku_board.get_rect()
-image_x = (screen_width - image_rect.width) // 2
-image_y = (screen_height - image_rect.height) // 2
+# Initialize game state
+game_state = START_SCREEN
 
-sudoku_0 = pygame.image.load("assets/0.png")
-sudoku_1 = pygame.image.load("assets/1.png")
-sudoku_2 = pygame.image.load("assets/2.png")
-sudoku_3 = pygame.image.load("assets/3.png")
-sudoku_4 = pygame.image.load("assets/4.png")
-sudoku_5 = pygame.image.load("assets/5.png")
-sudoku_6 = pygame.image.load("assets/6.png")
-sudoku_7 = pygame.image.load("assets/7.png")
-sudoku_8 = pygame.image.load("assets/8.png")
-sudoku_9 = pygame.image.load("assets/9.png")
+# Function to draw the start screen
+def draw_start_screen():
+    screen.fill((255, 255, 255))  # Fill the screen with white color
+    title_text = large_font.render("Sudoku Game", True, (0, 0, 0))
+    screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 4))
 
-selected_box = None
+    easy_text = font.render("Easy (Press 1)", True, (0, 0, 0))
+    screen.blit(easy_text, (WIDTH // 2 - easy_text.get_width() // 2, HEIGHT // 2))
 
-#(source_surf, (posx, posy), cropped_region)
+    medium_text = font.render("Medium (Press 2)", True, (0, 0, 0))
+    screen.blit(medium_text, (WIDTH // 2 - medium_text.get_width() // 2, HEIGHT // 2 + 40))
 
-mousex, mousey = 0, 0
-pygame.display.update()
-
-box_size = 66
-box_spacing = 5
-num_rows = 3
-num_cols = 3
-bigbox_spacing = 2
-
-start_x = 76
-start_y = 99
-
-mini_grid_size = 3* (box_size + box_spacing) + box_spacing
-
-def draw_mini_grids():
-    for row in range(3):
-        for col in range(3):
-            mini_grid_x =  col * (mini_grid_size + bigbox_spacing)
-            mini_grid_y =  row * (mini_grid_size + bigbox_spacing)
-            draw_mini_grid(mini_grid_x, mini_grid_y)
-
-def draw_mini_grid(x,y):
-    for row in range(num_rows):
-        for col in range(num_cols):
-            box_x = x + col * (box_size + box_spacing)
-            box_y = y + row * (box_size + box_spacing)
-            pygame.draw.rect(screen, (red_color), (box_x + start_x, box_y + start_y, box_size, box_size), 2) #this will draw some boxes!!
-
-
-#i need to load images!! 
-while True: #main game loop
-    screen.blit(sudoku_board, (image_x, image_y))
-    draw_mini_grids()
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                print("escape key pressed!")
-                pygame.quit()
-                sys.exit()
-            elif event.key == K_SPACE:
-                print(pygame.mouse.get_pos())
-        elif event.type == MOUSEBUTTONDOWN:
-            mousex, mousey = pygame.mouse.get_pos()
-            clicked_box_col = mousex // (box_size + box_size)
-            clicked_box_row = mousex // (box_size + box_size)
-            selected_box = (clicked_box_row, clicked_box_col)
-            input_text = ""
-        elif event.type == KEYUP:
-            pass
-
-        elif event.type == pygame.KEYDOWN:
-            if selected_box is not None:
-                if event.key == pygame.K_BACKSPACE:
-                    input_text = input_text[:-1]
-                elif event.key in range(pygame.K_0, pygame.K_9 + 1):
-                    input_text += event.unicode
-    
-    if selected_box is not None:
-        box_x = selected_box[1] * (box_size + box_spacing)
-        box_y = selected_box[0] * (box_size + box_spacing)
-        pygame.draw.rect(screen, (255, 0, 0), (box_x, box_y, box_size, box_size), 2)
-
-        # Render and blit the input text onto the selected box
-        text_surface = font.render(input_text, True, (255, 255, 255))
-        screen.blit(text_surface, (box_x + 10, box_y + 10))
+    hard_text = font.render("Hard (Press 3)", True, (0, 0, 0))
+    screen.blit(hard_text, (WIDTH // 2 - hard_text.get_width() // 2, HEIGHT // 2 + 80))
 
     pygame.display.update()
+
+# Set up the game board
+difficulty = 0  # Set the difficulty level (0: Easy, 1: Medium, 2: Hard)
+board = None
+
+# Function to draw the game board
+def draw_board():
+    screen.fill((255, 255, 255))  # Fill the screen with white color
+    board.draw()  # Draw the Sudoku board
+board_drawn = False
+
+# Define button parameters
+button_width = 150
+button_height = 50
+button_spacing = 20
+button_x = (WIDTH - 3 * button_width - 2 * button_spacing) // 2
+button_y = HEIGHT - 100
+
+# Define button colors
+button_color = (100, 100, 100)
+hover_color = (150, 150, 150)
+
+# Define button texts
+button_texts = ["Reset", "Restart", "Exit"]
+
+# Function to draw buttons
+def draw_buttons():
+    for i, text in enumerate(button_texts):
+        button_rect = pygame.Rect(button_x + i * (button_width + button_spacing), button_y, button_width, button_height)
+        pygame.draw.rect(screen, button_color, button_rect)
+        # Check if mouse is hovering over the button
+        if button_rect.collidepoint(pygame.mouse.get_pos()):
+            pygame.draw.rect(screen, hover_color, button_rect)
+        # Render and blit button text
+        button_font = pygame.font.Font(None, 30)
+        text_surface = button_font.render(text, True, hover_color)
+        text_rect = text_surface.get_rect(center=button_rect.center)
+        screen.blit(text_surface, text_rect)
+
+# Main loop
+
+
+# Main game loop
+running = True
+
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if game_state == START_SCREEN:
+            draw_start_screen()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    difficulty = 0
+                    game_state = GAME_SCREEN
+                    board = Board(WIDTH, HEIGHT - 100, screen, difficulty)  # Adjusted height to accommodate the board
+                elif event.key == pygame.K_2:
+                    difficulty = 1
+                    game_state = GAME_SCREEN
+                    board = Board(WIDTH, HEIGHT - 100, screen, difficulty)  # Adjusted height to accommodate the board
+                elif event.key == pygame.K_3:
+                    difficulty = 2
+                    game_state = GAME_SCREEN
+                    board = Board(WIDTH, HEIGHT - 100, screen, difficulty)  # Adjusted height to accommodate the board
+        elif game_state == GAME_SCREEN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Handle mouse click events
+                if event.button == 1:  # Left mouse button
+                    x, y = pygame.mouse.get_pos()
+                    row, col = board.click(x, y)
+                    if row is not None and col is not None:
+                        board.select(row, col)
+                elif event.button == 3:  # Right mouse button
+                    # Check if the click is within the "Check Board" button area
+                    if WIDTH // 2 - 60 <= event.pos[0] <= WIDTH // 2 + 60 and HEIGHT - 60 <= event.pos[1] <= HEIGHT - 20:
+                        if board.check_board():
+                            print("Board is solved!")
+                        else:
+                            print("Board is not solved yet.")
+
+            elif event.type == pygame.KEYDOWN:
+                # Handle key press events
+                if board.selected_cell is not None and not board.selected_cell.is_preset:
+                    if pygame.K_KP1 <= event.key <= pygame.K_KP9:
+                        board.place_number(event.key - pygame.K_KP0)  # Input number from number pad
+                    elif pygame.K_1 <= event.key <= pygame.K_9:
+                        board.place_number(event.key - pygame.K_0)  # Input number from top row of keyboard
+                    elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                        board.clear()  # Clear cell if backspace or delete is pressed
+
+            board.draw()  # Redraw the board
+
+            # Draw buttons
+            draw_buttons()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousex, mousey = pygame.mouse.get_pos()
+                # Check if any button is clicked
+                for i, text in enumerate(button_texts):
+                    button_rect = pygame.Rect(button_x + i * (button_width + button_spacing), button_y, button_width, button_height)
+                    if button_rect.collidepoint(mousex, mousey):
+                        if text == "Reset":
+                            # Reset the board
+                            pass
+                        elif text == "Restart":
+                            # Go back to the Game Start screen
+                            game_state = START_SCREEN
+                        elif text == "Exit":
+                            # End the program
+                            pygame.quit()
+                            sys.exit()
+
+    pygame.display.update()
+
+pygame.quit()

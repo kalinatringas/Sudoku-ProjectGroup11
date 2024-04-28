@@ -5,20 +5,20 @@ from sudoku_generator import SudokuGenerator
 
 class Board:
     # init function
+        # init function
+# init function
     def __init__(self, width, height, screen, difficulty):
-        self.width = width
-        self.height = height
+        self.screen_width, self.screen_height = pygame.display.get_surface().get_size()
+        self.cell_size = min(self.screen_width, self.screen_height) * 0.7 // 9  # Calculate cell size dynamically
+        self.width = self.cell_size * 9
+        self.height = self.cell_size * 9
         self.screen = screen
         self.difficulty = difficulty
         self.selected_cell = None
         row = []
         # creates a 2d list of cell objects
         self.cell_list = []
-        # for i in range(0, 9):
-        #     for j in range(0, 9):
-        #         row.append(Cell(0, i, j, self.screen))
-        #     self.cell_list.append(row)
-        #     row = []
+
         if difficulty == 0:
             sudoku_generator = SudokuGenerator(row_length=9, removed_cells=30)  # Adjust parameters as needed
         elif difficulty == 1:
@@ -32,7 +32,7 @@ class Board:
             cell_row = []
             for j in range(9):
                 cell_value = sudoku_generator.get_board()[i][j]
-                cell_row.append(Cell(cell_value, i, j, self.screen))
+                cell_row.append(Cell(cell_value, i, j, self.screen))  # Remove cell_size from arguments
             self.cell_list.append(cell_row)
 
         # self.update_board()
