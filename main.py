@@ -5,8 +5,8 @@ from board import Board
 pygame.init()
 
 # Set up the screen
-WIDTH = 900
-HEIGHT = 900
+WIDTH = 600
+HEIGHT = 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Sudoku Game")
 
@@ -39,7 +39,7 @@ def draw_start_screen():
 
 # Set up the game board
 difficulty = 0  # Set the difficulty level (0: Easy, 1: Medium, 2: Hard)
-board = None
+board = Board(WIDTH, HEIGHT, screen, difficulty)
 
 # Function to draw the game board
 def draw_board():

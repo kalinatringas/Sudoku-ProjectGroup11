@@ -4,11 +4,9 @@ from sudoku_generator import SudokuGenerator
 
 
 class Board:
-    # init function
-        # init function
-# init function
-    def __init__(self, width, height, screen, difficulty):
-        self.screen_width, self.screen_height = pygame.display.get_surface().get_size()
+    def __init__(self, screen_width, screen_height, screen, difficulty):
+        self.screen_width = screen_width
+        self.screen_height = screen_height
         self.cell_size = min(self.screen_width, self.screen_height) * 0.7 // 9  # Calculate cell size dynamically
         self.width = self.cell_size * 9
         self.height = self.cell_size * 9
@@ -34,6 +32,7 @@ class Board:
                 cell_value = sudoku_generator.get_board()[i][j]
                 cell_row.append(Cell(cell_value, i, j, self.screen))  # Remove cell_size from arguments
             self.cell_list.append(cell_row)
+
 
         # self.update_board()
     # function to draw the lines and cells of the board
