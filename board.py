@@ -5,10 +5,10 @@ from sudoku_generator import SudokuGenerator
 
 class Board:
     def __init__(self, screen_width, screen_height, screen, difficulty):
-        self.screen_width = screen_width
-        self.screen_height = screen_height
+        self.screen_width = screen_width 
+        self.screen_height = screen_height 
         self.cell_size = min(self.screen_width, self.screen_height) * 0.7 // 9  # Calculate cell size dynamically
-        self.width = self.cell_size * 9
+        self.width = self.cell_size
         self.height = self.cell_size * 9
         self.screen = screen
         self.difficulty = difficulty

@@ -23,7 +23,7 @@ game_state = START_SCREEN
 # Function to draw the start screen
 def draw_start_screen():
     screen.fill((255, 255, 255))  # Fill the screen with white color
-    title_text = large_font.render("Sudoku Game", True, (0, 0, 0))
+    title_text = large_font.render("Sudoku Game :3", True, (0, 0, 0))
     screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, HEIGHT // 4))
 
     easy_text = font.render("Easy (Press 1)", True, (0, 0, 0))
